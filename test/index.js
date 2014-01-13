@@ -1,4 +1,5 @@
 
+var assert = require('assert');
 var delegate = require('..');
 
 describe('.method(name)', function(){
@@ -7,6 +8,7 @@ describe('.method(name)', function(){
 
     obj.request = {
       foo: function(bar){
+        assert(this == obj.request);
         return bar;
       }
     };

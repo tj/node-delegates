@@ -36,7 +36,7 @@ Delegator.prototype.method = function(name){
   this.methods.push(name);
 
   proto[name] = function(){
-    return this[target][name].apply(this, arguments);
+    return this[target][name].apply(this[target], arguments);
   };
 
   return this;
