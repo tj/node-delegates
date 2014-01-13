@@ -51,22 +51,7 @@ Delegator.prototype.method = function(name){
  */
 
 Delegator.prototype.access = function(name){
-  var proto = this.proto;
-  var target = this.target;
-  this.getters.push(name);
-  this.setters.push(name);
-
-  Object.defineProperty(proto, name, {
-    get: function(){
-      return this[target][name];
-    },
-
-    set: function(val){
-      this[target][name] = val;
-    }
-  })
-
-  return this;
+  return this.getter(name).setter(name);
 };
 
 /**
@@ -82,11 +67,9 @@ Delegator.prototype.getter = function(name){
   var target = this.target;
   this.getters.push(name);
 
-  Object.defineProperty(proto, name, {
-    get: function(){
-      return this[target][name];
-    }
-  })
+  proto.__defineGetter__(name, function(){
+    return this[target][name];
+  });
 
   return this;
 };
@@ -104,11 +87,9 @@ Delegator.prototype.setter = function(name){
   var target = this.target;
   this.setters.push(name);
 
-  Object.defineProperty(proto, name, {
-    set: function(val){
-      this[target][name] = val;
-    }
-  })
+  proto.__defineSetter__(name, function(val){
+    return this[target][name] = val;
+  });
 
   return this;
 };
