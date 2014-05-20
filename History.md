@@ -1,4 +1,10 @@
 
+0.0.4 / 2014-05-20 
+==================
+
+ * do not error out if target doesn't exist
+ * added component.json
+
 0.0.3 / 2014-01-13
 ==================
 
