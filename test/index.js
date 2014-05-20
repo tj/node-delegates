@@ -17,6 +17,19 @@ describe('.method(name)', function(){
 
     obj.foo('something').should.equal('something');
   })
+
+  it('should not error out when there is no target', function(){
+    var obj = {};
+
+    delegate(obj, 'request').method('foo');
+
+    try {
+      obj.foo('whatever');
+    } catch (e) {
+      assert(null == e);
+    }
+
+  });
 })
 
 describe('.getter(name)', function(){
@@ -33,6 +46,18 @@ describe('.getter(name)', function(){
 
     obj.type.should.equal('text/html');
   })
+
+  it('should not error out when there is no target', function(){
+    var obj = {};
+    delegate(obj, 'request').getter('type');
+
+    try {
+      assert(undefined == obj.type);
+    } catch (e) {
+      assert(null == e);
+    }
+
+  });
 })
 
 describe('.setter(name)', function(){
@@ -54,6 +79,20 @@ describe('.setter(name)', function(){
     obj.type = 'hey';
     obj.request.type.should.equal('HEY');
   })
+
+  it('should not error out when there is no target', function(){
+    var obj = {};
+    delegate(obj, 'request').setter('type');
+
+    try {
+      obj.type = 'hey';
+      assert(undefined == obj.type);
+      assert(undefined == obj.request);
+    } catch (e) {
+      assert(null == e);
+    }
+
+  });
 })
 
 describe('.access(name)', function(){
