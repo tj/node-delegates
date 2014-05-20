@@ -1,0 +1,8 @@
+{
+  "name": "delegates",
+  "version": "0.0.3",
+  "description": "delegate to children",
+  "scripts": [
+    "index.js"
+  ]
+}
