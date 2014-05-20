@@ -4,5 +4,8 @@
   "description": "delegate to children",
   "scripts": [
     "index.js"
-  ]
+  ],
+  "development": {
+    "component/assert": "*"
+  }
 }
