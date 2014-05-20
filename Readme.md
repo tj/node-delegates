@@ -5,8 +5,18 @@
 
 ## Installation
 
+Using
+
+In the browser (using component): 
+
 ```
-$ npm install delegates
+$ component install matthewmueller/delegates
+```
+
+In node:
+
+```
+$ npm install matthewmueller-delegates
 ```
 
 ## Example
@@ -42,6 +52,24 @@ delegate(proto, 'request')
   .getter('secure')
   .getter('ips')
   .getter('ip')
+```
+
+# Test
+
+Using node:
+
+In the browser;
+
+```
+npm install
+make test-browser
+```
+
+In node:
+
+```
+npm install
+make test
 ```
 
 # License
