@@ -1,3 +1,11 @@
+build: components index.js
+	@component build --dev
+
+components: component.json
+	@component install --dev
+
+clean:
+	rm -fr build components
 
 test:
 	@./node_modules/.bin/mocha \
@@ -5,4 +13,7 @@ test:
 		--reporter spec \
 		--bail
 
-.PHONY: test
+test-browser: build
+	@./node_modules/.bin/component-test browser
+
+.PHONY: test test-browser

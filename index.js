@@ -36,6 +36,7 @@ Delegator.prototype.method = function(name){
   this.methods.push(name);
 
   proto[name] = function(){
+    if (!this[target]) return this;
     return this[target][name].apply(this[target], arguments);
   };
 
@@ -68,6 +69,7 @@ Delegator.prototype.getter = function(name){
   this.getters.push(name);
 
   proto.__defineGetter__(name, function(){
+    if (!this[target]) return undefined;
     return this[target][name];
   });
 
@@ -88,6 +90,7 @@ Delegator.prototype.setter = function(name){
   this.setters.push(name);
 
   proto.__defineSetter__(name, function(val){
+    if (!this[target]) return this;
     return this[target][name] = val;
   });
 

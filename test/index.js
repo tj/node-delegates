@@ -1,6 +1,12 @@
 
 var assert = require('assert');
-var delegate = require('..');
+
+try {
+  var delegate = require('..');
+} catch (e) {
+  var delegate = require('delegates');
+}
+
 
 describe('.method(name)', function(){
   it('should delegate methods', function(){
@@ -14,9 +20,21 @@ describe('.method(name)', function(){
     };
 
     delegate(obj, 'request').method('foo');
-
-    obj.foo('something').should.equal('something');
+    assert('something' == obj.foo('something'));
   })
+
+  it('should not error out when there is no target', function(){
+    var obj = {};
+
+    delegate(obj, 'request').method('foo');
+
+    try {
+      obj.foo('whatever');
+    } catch (e) {
+      assert(null == e);
+    }
+
+  });
 })
 
 describe('.getter(name)', function(){
@@ -30,9 +48,20 @@ describe('.getter(name)', function(){
     }
 
     delegate(obj, 'request').getter('type');
-
-    obj.type.should.equal('text/html');
+    assert('text/html' == obj.type);
   })
+
+  it('should not error out when there is no target', function(){
+    var obj = {};
+    delegate(obj, 'request').getter('type');
+
+    try {
+      assert(undefined == obj.type);
+    } catch (e) {
+      assert(null == e);
+    }
+
+  });
 })
 
 describe('.setter(name)', function(){
@@ -52,8 +81,22 @@ describe('.setter(name)', function(){
     delegate(obj, 'request').setter('type');
 
     obj.type = 'hey';
-    obj.request.type.should.equal('HEY');
+    assert('HEY' == obj.request.type);
   })
+
+  it('should not error out when there is no target', function(){
+    var obj = {};
+    delegate(obj, 'request').setter('type');
+
+    try {
+      obj.type = 'hey';
+      assert(undefined == obj.type);
+      assert(undefined == obj.request);
+    } catch (e) {
+      assert(null == e);
+    }
+
+  });
 })
 
 describe('.access(name)', function(){
@@ -73,6 +116,6 @@ describe('.access(name)', function(){
     delegate(obj, 'request').access('type');
 
     obj.type = 'hey';
-    obj.type.should.equal('HEY');
+    assert('HEY' == obj.type);
   })
 })
