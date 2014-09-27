@@ -20,6 +20,7 @@ function Delegator(proto, target) {
   this.methods = [];
   this.getters = [];
   this.setters = [];
+  this.fluents = [];
 }
 
 /**
@@ -90,6 +91,31 @@ Delegator.prototype.setter = function(name){
   proto.__defineSetter__(name, function(val){
     return this[target][name] = val;
   });
+
+  return this;
+};
+
+/**
+ * Delegator fluent accessor
+ *
+ * @param {String} name
+ * @return {Delegator} self
+ * @api public
+ */
+
+Delegator.prototype.fluent = function (name) {
+  var proto = this.proto;
+  var target = this.target;
+  this.fluents.push(name);
+
+  proto[name] = function(val){
+    if ('undefined' != typeof val) {
+      this[target][name] = val;
+      return this;
+    } else {
+      return this[target][name];
+    }
+  };
 
   return this;
 };
