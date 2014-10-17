@@ -1,6 +1,6 @@
 {
   "name": "delegates",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "repository": "visionmedia/node-delegates",
   "description": "delegate methods and accessors to another property",
   "keywords": ["delegate", "delegation"],
