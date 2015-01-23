@@ -120,13 +120,10 @@ Delegator.prototype.fluent = function (name) {
   return this;
 };
 
+var validName = /^[$A-Z_][0-9A-Z_$]*$/i;
+
 function requiresBoxNotation(propName){
-  if( propName.indexOf('.') !== -1 ) return true;
-  if( propName.indexOf('"') !== -1 ) return true;
-  if( propName.indexOf('\'') !== -1 ) return true;
-  if( propName.indexOf('\\') !== -1 ) return true;
-  if( propName.indexOf('/') !== -1 ) return true;
-  return false;
+  return !validName.test(propName);
 }
 
 function dot(propName){
