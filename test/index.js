@@ -116,4 +116,15 @@ describe('handles special characters', function () {
     obj['flu.ent']().should.equal('bar');
     obj['me.thod']().should.equal('hello!');
   })
+
+  it('quotes in the property name',function(){
+    var obj = {
+      're"quest':{
+        "ty'pe" : 'text'
+      }
+    };
+
+    delegate(obj, 're"quest').getter("ty'pe");
+    obj["ty'pe"].should.equal('text');
+  })
 })

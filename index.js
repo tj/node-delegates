@@ -120,7 +120,18 @@ Delegator.prototype.fluent = function (name) {
   return this;
 };
 
+function requiresBoxNotation(propName){
+  if( propName.indexOf('.') !== -1 ) return true;
+  if( propName.indexOf('"') !== -1 ) return true;
+  if( propName.indexOf('\'') !== -1 ) return true;
+  return false;
+}
+
 function dot(propName){
-  if(propName.indexOf('.') !== -1) return '["' + propName + '"]';
+  if(requiresBoxNotation(propName)){
+    propName = propName.replace('"','\\"');
+    return '["' + propName + '"]';
+  }
+
   return '.' + propName;
 }
