@@ -36,9 +36,9 @@ Delegator.prototype.method = function(name){
   var target = this.target;
   this.methods.push(name);
 
-  proto[name] = function(){
-    return this[target][name].apply(this[target], arguments);
-  };
+  proto[name] = new Function(
+    "return this." + target + "." + name + ".apply(this." + target + ", arguments);"
+  );
 
   return this;
 };
@@ -68,9 +68,9 @@ Delegator.prototype.getter = function(name){
   var target = this.target;
   this.getters.push(name);
 
-  proto.__defineGetter__(name, function(){
-    return this[target][name];
-  });
+  proto.__defineGetter__(name, new Function(
+    "return this." + target + "." + name +";"
+  ));
 
   return this;
 };
@@ -88,9 +88,9 @@ Delegator.prototype.setter = function(name){
   var target = this.target;
   this.setters.push(name);
 
-  proto.__defineSetter__(name, function(val){
-    return this[target][name] = val;
-  });
+  proto.__defineSetter__(name, new Function('val',
+    "return this." + target + "." + name + "= val;"
+  ));
 
   return this;
 };
@@ -108,14 +108,14 @@ Delegator.prototype.fluent = function (name) {
   var target = this.target;
   this.fluents.push(name);
 
-  proto[name] = function(val){
-    if ('undefined' != typeof val) {
-      this[target][name] = val;
-      return this;
-    } else {
-      return this[target][name];
-    }
-  };
+  proto[name] = new Function('val',
+    "if ('undefined' != typeof val) {" +
+      "this." + target + "." + name + " = val;" +
+      "return this;" +
+    "} else {" +
+      "return this." + target + "." + name + ";" +
+    "}"
+  );
 
   return this;
 };
