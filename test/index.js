@@ -137,5 +137,21 @@ describe('handles special characters', function () {
 
     delegate(obj, 're\\quest').getter("ty/pe");
     obj["ty/pe"].should.equal('text');
-  });
+  })
+
+  it('reserved words in property names',function(){
+    var obj = {
+      'new':{
+        'finally' : 'fin',
+        'var' : 'v',
+        'true' : true
+      }
+    };
+
+    delegate(obj, 'new').getter('finally').getter('var').getter('true');
+
+    obj.finally.should.equal('fin');
+    obj.var.should.equal('v');
+    obj.true.should.equal(true);
+  })
 })

@@ -124,6 +124,15 @@ var validName = /^[$A-Z_][0-9A-Z_$]*$/i;
 
 function requiresBoxNotation(propName){
   return !validName.test(propName);
+  /*try {
+    var f = new Function('val','return val.' + propName);
+    var o = {};
+    o[propName] = 'hello';
+    return f(o) == 'hello';
+  }
+  catch(e){
+    return false;
+  }  */
 }
 
 function dot(propName){
