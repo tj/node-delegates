@@ -92,3 +92,28 @@ describe('.fluent(name)', function () {
     obj.settings.env.should.equal('production');
   })
 })
+
+describe('handles special characters', function () {
+  it('dots in the property names',function(){
+    var obj = {
+      're.quest': {
+        'ty.pe': 'text',
+        'flu.ent' : 'foo',
+        'me.thod' : function(){
+          return 'hello!';
+        }
+      }
+    };
+
+    delegate(obj, 're.quest').access('ty.pe').fluent('flu.ent').method('me.thod');
+
+    obj['ty.pe'].should.equal('text');
+    obj['ty.pe'] = 'html';
+    obj['ty.pe'].should.equal('html');
+    obj['re.quest']['ty.pe'].should.equal('html');
+    obj['flu.ent']().should.equal('foo');
+    obj['flu.ent']('bar');
+    obj['flu.ent']().should.equal('bar');
+    obj['me.thod']().should.equal('hello!');
+  })
+})

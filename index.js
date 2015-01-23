@@ -37,7 +37,7 @@ Delegator.prototype.method = function(name){
   this.methods.push(name);
 
   proto[name] = new Function(
-    "return this." + target + "." + name + ".apply(this." + target + ", arguments);"
+    "return this" + dot(target) + dot(name) + ".apply(this" + dot(target) + ", arguments);"
   );
 
   return this;
@@ -69,7 +69,7 @@ Delegator.prototype.getter = function(name){
   this.getters.push(name);
 
   proto.__defineGetter__(name, new Function(
-    "return this." + target + "." + name +";"
+    "return this" + dot(target) + dot(name) +";"
   ));
 
   return this;
@@ -89,7 +89,7 @@ Delegator.prototype.setter = function(name){
   this.setters.push(name);
 
   proto.__defineSetter__(name, new Function('val',
-    "return this." + target + "." + name + "= val;"
+    "return this" + dot(target) + dot(name) + "= val;"
   ));
 
   return this;
@@ -110,12 +110,17 @@ Delegator.prototype.fluent = function (name) {
 
   proto[name] = new Function('val',
     "if ('undefined' != typeof val) {" +
-      "this." + target + "." + name + " = val;" +
+      "this" + dot(target) + dot(name) + " = val;" +
       "return this;" +
     "} else {" +
-      "return this." + target + "." + name + ";" +
+      "return this" + dot(target) + dot(name) + ";" +
     "}"
   );
 
   return this;
 };
+
+function dot(propName){
+  if(propName.indexOf('.') !== -1) return '["' + propName + '"]';
+  return '.' + propName;
+}
