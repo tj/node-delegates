@@ -124,12 +124,14 @@ function requiresBoxNotation(propName){
   if( propName.indexOf('.') !== -1 ) return true;
   if( propName.indexOf('"') !== -1 ) return true;
   if( propName.indexOf('\'') !== -1 ) return true;
+  if( propName.indexOf('\\') !== -1 ) return true;
+  if( propName.indexOf('/') !== -1 ) return true;
   return false;
 }
 
 function dot(propName){
   if(requiresBoxNotation(propName)){
-    propName = propName.replace('"','\\"');
+    propName = propName.replace('\\','\\\\').replace('"','\\"');
     return '["' + propName + '"]';
   }
 

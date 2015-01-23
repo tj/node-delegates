@@ -127,4 +127,15 @@ describe('handles special characters', function () {
     delegate(obj, 're"quest').getter("ty'pe");
     obj["ty'pe"].should.equal('text');
   })
+
+  it('slashes in property names',function(){
+    var obj = {
+      're\\quest':{
+        "ty/pe" : 'text'
+      }
+    };
+
+    delegate(obj, 're\\quest').getter("ty/pe");
+    obj["ty/pe"].should.equal('text');
+  });
 })
