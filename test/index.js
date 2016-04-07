@@ -92,3 +92,34 @@ describe('.fluent(name)', function () {
     obj.settings.env.should.equal('production');
   })
 })
+
+describe('.auto(proto, targetProto, target)', function(){
+  it('should apply properties', function(){
+    var obj = {
+      settings: {
+        env: 'development'
+      }
+    };
+
+    var setAs = 0;
+
+    Object.defineProperty(obj.settings, 'getter', {
+      get: function(){
+        return this.env;
+      }
+    });
+    Object.defineProperty(obj.settings, 'setter', {
+      set: val => setAs = val
+    });
+    Object.defineProperty(obj.settings, 'constant', { value: 2 });
+
+    delegate.auto(obj, obj.settings, 'settings');
+
+    obj.env.should.equal('development');
+    obj.getter.should.equal('development');
+    obj.setter = 10;
+    setAs.should.equal(10);
+    obj.constant = 5;
+    obj.constant.should.equal(2);
+  })
+})

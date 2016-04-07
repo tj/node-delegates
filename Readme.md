@@ -51,6 +51,11 @@ delegate(proto, 'request')
 Creates a delegator instance used to configure using the `prop` on the given
 `proto` object. (which is usually a prototype)
 
+## Delegate.auto(proto, targetProto, targetProp)
+
+Delegates getters, setters, values, and methods from targetProto to proto.
+Assumes that targetProto objects will exist under proto objects with the key targetProp.
+
 ## Delegate#method(name)
 
 Allows the given method `name` to be accessed on the host.

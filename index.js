@@ -24,6 +24,42 @@ function Delegator(proto, target) {
 }
 
 /**
+ * Automatically delegate properties
+ * from a target prototype
+ *
+ * @param {Object} proto
+ * @param {object} targetProto
+ * @param {String} targetProp
+ * @api public
+ */
+
+Delegator.auto = function(proto, targetProto, targetProp){
+  var delegator = Delegator(proto, targetProp);
+  var properties = Object.getOwnPropertyNames(targetProto);
+  for (var i = 0; i < properties.length; i++) {
+    var property = properties[i];
+    var descriptor = Object.getOwnPropertyDescriptor(targetProto, property);
+    if (descriptor.get) {
+      delegator.getter(property);
+    }
+    if (descriptor.set) {
+      delegator.setter(property);
+    }
+    if (descriptor.hasOwnProperty('value')) { // could be undefined but writable
+      var value = descriptor.value;
+      if (value instanceof Function) {
+        delegator.method(property);
+      } else {
+        delegator.getter(property);
+      }
+      if (descriptor.writable) {
+        delegator.setter(property);
+      }
+    }
+  }
+};
+
+/**
  * Delegate method `name`.
  *
  * @param {String} name
