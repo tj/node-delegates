@@ -17,6 +17,21 @@ describe('.method(name)', function(){
 
     obj.foo('something').should.equal('something');
   })
+
+  it('should be bound', function(){
+    var obj = {};
+
+    obj.request = {
+      foo: function(bar){
+        assert(this == obj.request);
+        return bar;
+      }
+    };
+
+    delegate(obj, 'request').method('foo');
+
+    obj.foo.apply(undefined, ['something']).should.equal('something');
+  })
 })
 
 describe('.getter(name)', function(){
@@ -89,6 +104,20 @@ describe('.fluent(name)', function () {
 
     obj.env().should.equal('development');
     obj.env('production').should.equal(obj);
+    obj.settings.env.should.equal('production');
+  })
+
+  it('should be bound', function(){
+    var obj = {
+      settings: {
+        env: 'development'
+      }
+    };
+
+    delegate(obj, 'settings').fluent('env');
+
+    obj.env.apply(undefined, []).should.equal('development');
+    obj.env.apply(undefined, ['production']).should.equal(obj);
     obj.settings.env.should.equal('production');
   })
 })

@@ -74,7 +74,7 @@ Delegator.prototype.method = function(name){
 
   proto[name] = function(){
     return this[target][name].apply(this[target], arguments);
-  };
+  }.bind(proto);
 
   return this;
 };
@@ -151,7 +151,7 @@ Delegator.prototype.fluent = function (name) {
     } else {
       return this[target][name];
     }
-  };
+  }.bind(proto);
 
   return this;
 };
