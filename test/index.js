@@ -1,6 +1,7 @@
 
 var assert = require('assert');
 var delegate = require('..');
+require('should');
 
 describe('.method(name)', function(){
   it('should delegate methods', function(){
