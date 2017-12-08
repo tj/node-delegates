@@ -104,8 +104,11 @@ Delegator.prototype.getter = function(name){
   var target = this.target;
   this.getters.push(name);
 
-  proto.__defineGetter__(name, function(){
-    return this[target][name];
+  Object.defineProperty(proto, name, {
+    get() {
+      return this[target][name];
+    },
+    configurable: true
   });
 
   return this;
@@ -124,8 +127,11 @@ Delegator.prototype.setter = function(name){
   var target = this.target;
   this.setters.push(name);
 
-  proto.__defineSetter__(name, function(val){
-    return this[target][name] = val;
+  Object.defineProperty(this.proto, name, {
+    set(v) {
+      this[target][name] = v;
+    },
+    configurable: true
   });
 
   return this;
