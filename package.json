@@ -9,5 +9,8 @@
     "mocha": "*",
     "should": "*"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  }
 }
